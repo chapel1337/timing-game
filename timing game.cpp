@@ -27,6 +27,9 @@ using std::cout; using std::cin; using std::string; using std::getline; using st
 * i finally got loops with key input to work!!!
 * i have no idea what made it not work last time still (i also used _kbit())
 * inspired by a timing game that i played at dave & busters
+* 
+* came back on 11/8/2022 to fix restart
+* also removed ccin because it was useless
 */
 
 // ------- \\
@@ -88,6 +91,7 @@ void sleep(auto time)
 	Sleep(time * 1000);
 }
 
+/*
 char ccin()
 {
 	string input{};
@@ -95,6 +99,7 @@ char ccin()
 
 	return input[0];
 }
+*/
 
 int getRandom(int min, int max)
 {
@@ -150,6 +155,7 @@ void winLoseHandler(bool outcome) // win = true, loss = false
 
 	blocksPlaced = 0;
 	speed = 0.4;
+	stop = false;
 
 	blockY = mapY - 1;
 
@@ -487,17 +493,11 @@ void placeBlock()
 
 		speed = 0.10;
 	}
-	else if (blocksPlaced == 7)
+	else if (blocksPlaced == 8)
 	{
 		if (hashtagCount != 0 && blockX.size() != 1) blockX.pop_back();
 
 		speed = 0.05;
-	}
-	else if (blocksPlaced == 9)
-	{
-		if (hashtagCount != 0 && blockX.size() != 1) blockX.pop_back();
-
-		speed = 0.025;
 	}
 
 	blocksPlaced++;
@@ -584,7 +584,7 @@ void changeBlock()
 	cout << "input block: \n\n";
 
 	cout << "> ";
-	inputBlock = ccin();
+	cin >> inputBlock;
 
 	clear();
 
@@ -593,7 +593,7 @@ void changeBlock()
 	cout << "input block size: \n\n";
 
 	cout << "> ";
-	inputBlockSize = ccin();
+	cin >> inputBlockSize;
 
 	clear();
 
@@ -647,7 +647,7 @@ void changeMapSize()
 	cout << "input map y: \n\n";
 
 	cout << "> ";
-	inputMapY = ccin();
+	cin >> inputMapY;
 
 	clear();
 
@@ -656,7 +656,7 @@ void changeMapSize()
 	cout << "input map x: \n\n";
 
 	cout << "> ";
-	inputMapX = ccin();
+	cin >> inputMapX;
 
 	clear();
 
@@ -722,7 +722,7 @@ void settings()
 	}
 
 	cout << "> ";
-	response = ccin();
+	cin >> response;
 
 	if (linux)
 	{
@@ -740,9 +740,7 @@ void settings()
 			goTo("menu");
 			break;
 
-		default:
 			settings();
-			break;
 		}
 	}
 	else
@@ -764,11 +762,9 @@ void settings()
 		case '4':
 			goTo("menu");
 			break;
-
-		default:
-			settings();
-			break;
 		}
+
+		settings();
 	}
 }
 
@@ -803,7 +799,7 @@ void menu()
 	cout << "3. quit\n\n";
 
 	cout << "> ";
-	response = ccin();
+	cin >> response;
 
 	switch (response)
 	{
@@ -818,11 +814,9 @@ void menu()
 	case '3':
 		quit();
 		break;
-
-	default:
-		menu();
-		break;
 	}
+
+	menu();
 }
 
 // ------- \\
